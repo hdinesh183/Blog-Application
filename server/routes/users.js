@@ -14,10 +14,14 @@ router.post('/register', async (req, res) => {
     const [result] = await db.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
     res.status(201).json({ message: "User registered successfully." });
   } catch (err) {
+    console.error('❌ Registration Error:', err);
     if (err.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ error: "Username already exists." });
     }
-    res.status(500).json({ error: "Server error during registration." });
+    if (err.code === 'ER_NO_SUCH_TABLE') {
+      return res.status(500).json({ error: "Database tables are missing. Please run db.sql." });
+    }
+    res.status(500).json({ error: `Server error: ${err.message}` });
   }
 });
 
@@ -36,7 +40,8 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user: { id: user.id, username: user.username } });
   } catch (err) {
-    res.status(500).json({ error: "Server error during login." });
+    console.error('❌ Login Error:', err);
+    res.status(500).json({ error: `Server error: ${err.message}` });
   }
 });
 

@@ -14,7 +14,11 @@ router.get('/', async (req, res) => {
     `);
     res.json(posts);
   } catch (err) {
-    res.status(500).json({ error: "Server error fetching posts." });
+    console.error('❌ Fetch Posts Error:', err);
+    if (err.code === 'ER_NO_SUCH_TABLE') {
+      return res.status(500).json({ error: "Database table 'posts' is missing. Please run your db.sql script in Aiven." });
+    }
+    res.status(500).json({ error: `Server error: ${err.message}` });
   }
 });
 

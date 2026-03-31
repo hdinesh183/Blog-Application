@@ -15,15 +15,16 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // If no origin (like mobile apps or curl) allow it
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    const isVercel = origin.includes('vercel.app');
+    const isLocal = origin.includes('localhost');
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || isVercel || isLocal) {
       callback(null, true);
     } else {
       console.warn(`⚠️ CORS blocked a request from: ${origin}. Add this to your allowedOrigins!`);
-      // In production, we should keep it strict, but let's provide a better error.
-      callback(null, true); // ALLOW ALL for now to help the user fix the 500 error first
+      callback(null, true); // Still allowing all for debugging
     }
   },
   credentials: true

@@ -6,13 +6,14 @@ import { useAuth } from '../context/AuthContext';
 const PostCard = ({ post, onDelete }) => {
   const { user } = useAuth();
   const isAuthor = user && user.id === post.author_id;
+  const isAdmin = user && user.username === 'asd';
 
   return (
     <article className="post-card">
       <div className="post-card-content">
         <div className="post-card-header">
           <h2 className="post-title">{post.title}</h2>
-          {isAuthor && (
+          {(isAuthor || isAdmin) && (
             <button 
               className="btn-delete-small" 
               onClick={(e) => {

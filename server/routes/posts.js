@@ -83,7 +83,8 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const isAdmin = req.user && req.user.username && req.user.username.trim().toLowerCase() === 'asd';
 
     if (posts[0].author_id !== req.user.id && !isAdmin) {
-      return res.status(403).json({ error: "You are not authorized to delete this post." });
+      const debugInfo = `User: ${req.user.username}, ID: ${req.user.id}, isAdmin: ${isAdmin}`;
+      return res.status(403).json({ error: `You are not authorized to delete this post. (${debugInfo})` });
     }
 
     await db.execute('DELETE FROM posts WHERE id = ?', [req.params.id]);

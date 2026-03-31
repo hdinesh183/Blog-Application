@@ -178,10 +178,36 @@ h1, h2, h3, h4, .nav-logo {
   height: 100%;
 }
 
+.post-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
 .post-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   color: var(--text-main);
+  flex: 1;
+}
+
+.btn-delete-small {
+  background: #fef2f2;
+  color: var(--error);
+  border: 1px solid #fee2e2;
+  padding: 0.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-small:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
 }
 
 .post-meta {

@@ -7,7 +7,6 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -21,6 +20,17 @@ const Home = () => {
     };
     fetchPosts();
   }, []);
+
+  const handleDelete = async (postId) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        await axios.delete(`/api/posts/${postId}`);
+        setPosts(posts.filter(p => p.id !== postId));
+      } catch (err) {
+        alert("Failed to delete post. " + (err.response?.data?.error || ""));
+      }
+    }
+  };
 
   if (loading) return (
     <div className="loader-container">
@@ -40,7 +50,13 @@ const Home = () => {
       
       <div className="posts-grid">
         {posts.length > 0 ? (
-          posts.map(post => <PostCard key={post.id} post={post} />)
+          posts.map(post => (
+            <PostCard 
+              key={post.id} 
+              post={post} 
+              onDelete={() => handleDelete(post.id)} 
+            />
+          ))
         ) : (
           <div className="empty-state">
             <p>No posts found. Why not create the first one?</p>

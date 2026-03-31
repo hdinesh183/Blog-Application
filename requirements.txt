@@ -1,0 +1,23 @@
+# Backend Dependencies
+express
+mysql2
+dotenv
+jsonwebtoken
+bcryptjs
+cors
+
+# Frontend Dependencies
+react
+react-dom
+axios
+react-router-dom
+lucide-react
+
+# Development Tools
+vite
+@vitejs/plugin-react
+
+# System Requirements
+Node.js >= 18.0.0
+MySQL Server >= 8.0
+npm >= 9.0

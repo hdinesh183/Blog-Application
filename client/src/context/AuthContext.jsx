@@ -4,7 +4,10 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 // Set Axios default base URL for API calls
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+let apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Ensure no trailing slash
+if (apiURL.endsWith('/')) apiURL = apiURL.slice(0, -1);
+axios.defaults.baseURL = apiURL;
 
 export const useAuth = () => useContext(AuthContext);
 

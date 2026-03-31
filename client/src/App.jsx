@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PostDetail from './pages/PostDetail';
 import PostForm from './pages/PostForm';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -16,12 +17,12 @@ function App() {
           <Navbar />
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/post/:id" element={<PostDetail />} />
-              <Route path="/create" element={<PostForm />} />
-              <Route path="/edit/:id" element={<PostForm />} />
+              <Route path="/post/:id" element={<ProtectedRoute><PostDetail /></ProtectedRoute>} />
+              <Route path="/create" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
+              <Route path="/edit/:id" element={<ProtectedRoute><PostForm /></ProtectedRoute>} />
             </Routes>
           </main>
           <footer className="footer">

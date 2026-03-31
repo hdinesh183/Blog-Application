@@ -80,7 +80,9 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const [posts] = await db.execute('SELECT * FROM posts WHERE id = ?', [req.params.id]);
     if (posts.length === 0) return res.status(404).json({ error: "Post not found." });
     
-    if (posts[0].author_id !== req.user.id && req.user.username !== 'asd') {
+    const isAdmin = req.user && req.user.username && req.user.username.trim().toLowerCase() === 'asd';
+
+    if (posts[0].author_id !== req.user.id && !isAdmin) {
       return res.status(403).json({ error: "You are not authorized to delete this post." });
     }
 
